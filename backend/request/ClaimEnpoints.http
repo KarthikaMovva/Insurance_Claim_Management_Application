@@ -1,0 +1,26 @@
+### Base URL
+@baseUrl = http://localhost:5000
+
+
+### Store token manually after login
+@token = token
+
+
+
+### Submit Claim
+
+POST http://localhost:5000/api/claims
+Authorization: Bearer token
+Content-Type: multipart/form-data
+
+name=John Patient
+email=john@gmail.com
+claimAmount=5000
+description=Medical treatment reimbursement claim
+document=@./receipt.pdf
+
+
+# 3. Get My Claims
+
+GET {{baseUrl}}/api/claims/my
+Authorization: Bearer {{token}}
