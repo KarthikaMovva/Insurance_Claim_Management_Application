@@ -1,0 +1,49 @@
+### Base URL
+@baseUrl = http://localhost:5000
+
+### Register Patient
+
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+    "name": "John Patient",
+    "email": "john@gmail.com",
+    "password": "123456",
+    "role": "PATIENT"
+}
+
+
+### Register Insurer
+
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+    "name": "ABC Insurance",
+    "email": "insurer@gmail.com",
+    "password": "123456",
+    "role": "INSURER"
+}
+
+
+### Login Patient
+
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "john@gmail.com",
+    "password": "123456"
+}
+
+
+### Login Insurer
+
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "insurer@gmail.com",
+    "password": "123456"
+}
