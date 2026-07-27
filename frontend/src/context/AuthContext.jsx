@@ -6,6 +6,7 @@ export const AuthProvider = ({ children }) => {
 
     const [user, setUser] = useState(null);
     const [token, setToken] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
 
@@ -17,6 +18,8 @@ export const AuthProvider = ({ children }) => {
             setUser(JSON.parse(storedUser));
         }
 
+        setLoading(false);
+
     }, []);
 
     const login = (userData, jwt) => {
@@ -24,8 +27,8 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem("token", jwt);
         localStorage.setItem("user", JSON.stringify(userData));
 
-        setToken(jwt);
         setUser(userData);
+        setToken(jwt);
 
     };
 
@@ -40,20 +43,17 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-
         <AuthContext.Provider
             value={{
                 user,
                 token,
+                loading,
                 login,
                 logout
             }}
         >
-
             {children}
-
         </AuthContext.Provider>
-
     );
 
 };
