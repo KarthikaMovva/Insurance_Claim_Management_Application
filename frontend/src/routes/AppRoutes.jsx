@@ -9,6 +9,7 @@ import PatientDashboard from "../pages/patient/Dashboard";
 import SubmitClaim from "../pages/patient/SubmitClaim";
 import InsurerDashboard from "../pages/insurer/Dashboard";
 import ClaimDetails from "../pages/insurer/ClaimDetails";
+import ProtectedRoute from "./ProtectedRoutes";
 
 const AppRoutes = () => {
     return (
@@ -26,7 +27,11 @@ const AppRoutes = () => {
 
                         <Route
                             path="dashboard"
-                            element={<PatientDashboard />}
+                            element={
+                                <ProtectedRoute role="PATIENT">
+                                    <PatientDashboard />
+                                </ProtectedRoute>
+                            }
                         />
 
                         <Route
@@ -40,7 +45,10 @@ const AppRoutes = () => {
 
                         <Route
                             path="dashboard"
-                            element={<InsurerDashboard />}
+                            element={
+                                <ProtectedRoute role="INSURER">
+                                    <InsurerDashboard />
+                                </ProtectedRoute>}
                         />
 
                         <Route
