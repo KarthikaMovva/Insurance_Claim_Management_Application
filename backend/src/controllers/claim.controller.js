@@ -119,3 +119,105 @@ export const getAllClaims = async (req, res) => {
 
     }
 };
+
+export const getClaimById = async (req, res) => {
+
+    try {
+
+        const claim = await Claim.findById(req.params.id)
+            .populate("patient", "name email");
+
+        if (!claim) {
+            return res.status(404).json({
+                success: false,
+                message: "Claim not found"
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            claim
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+
+    }
+
+};
+
+export const updateClaim = async (req, res) => {
+
+    try {
+
+        const {
+            status,
+            approvedAmount,
+            insurerComments
+        } = req.body;
+
+        const claim = await Claim.findById(req.params.id);
+
+        const validStatuses = [
+            "PENDING",
+            "APPROVED",
+            "REJECTED"
+        ];
+
+        if (status && !validStatuses.includes(status)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid claim status"
+            });
+        }
+
+        if (!claim) {
+            return res.status(404).json({
+                success: false,
+                message: "Claim not found"
+            });
+        }
+
+        if (status) {
+            claim.status = status;
+        }
+
+        if (approvedAmount !== undefined) {
+            claim.approvedAmount = approvedAmount;
+        }
+
+        if (insurerComments) {
+            claim.insurerComments = insurerComments;
+        }
+        if (status === "APPROVED") {
+            claim.status = "APPROVED";
+            claim.approvedAmount = approvedAmount;
+        } else if (status === "REJECTED") {
+            claim.status = "REJECTED";
+            claim.approvedAmount = 0;
+        }
+
+        // claim.insurerComments = insurerComments || "";
+
+        await claim.save();
+
+        res.status(200).json({
+            success: true,
+            message: "Claim updated successfully",
+            claim
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+
+    }
+
+};

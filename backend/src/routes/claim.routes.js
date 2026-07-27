@@ -2,7 +2,9 @@ import express from "express";
 import {
     createClaim,
     getMyClaims,
-    getAllClaims
+    getAllClaims,
+    updateClaim,
+    getClaimById
 } from "../controllers/claim.controller.js";
 import protect from "../middleware/auth.middleware.js";
 import upload from "../middleware/upload.middleware.js";
@@ -20,8 +22,6 @@ router.post(
     createClaim
 );
 
-
-
 router.get(
     "/my",
     protect,
@@ -35,6 +35,19 @@ router.get(
     getAllClaims
 );
 
+router.get(
+    "/:id",
+    protect,
+    authorizeRole("INSURER"),
+    getClaimById
+);
+
+router.patch(
+    "/:id",
+    protect,
+    authorizeRole("INSURER"),
+    updateClaim
+);
 
 
 export default router;
