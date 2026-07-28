@@ -8,6 +8,7 @@ import Login from "../pages/auth/Login";
 import PatientDashboard from "../pages/patient/Dashboard";
 import SubmitClaim from "../pages/patient/SubmitClaim";
 import InsurerDashboard from "../pages/insurer/Dashboard";
+import ClaimReview from "../pages/insurer/ClaimReview";
 import ClaimDetails from "../pages/insurer/ClaimDetails";
 import ProtectedRoute from "./ProtectedRoutes";
 
@@ -49,6 +50,18 @@ const AppRoutes = () => {
                                 <ProtectedRoute role="INSURER">
                                     <InsurerDashboard />
                                 </ProtectedRoute>}
+                        />
+                        <Route
+
+                            path="/insurer/claims/:id"
+
+                            element={
+                                <ProtectedRoute role="INSURER">
+                                    <ClaimReview />
+                                </ProtectedRoute>
+
+                            }
+
                         />
 
                         <Route
