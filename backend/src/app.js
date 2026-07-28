@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import routes from "./routes/index.js";
+import path from "path";
 
 
 const app = express();
@@ -9,6 +10,10 @@ const app = express();
 // Middlewares
 app.use(cors());
 app.use(express.json());
+app.use(
+    "/uploads",
+    express.static(path.join(process.cwd(), "uploads"))
+);
 
 
 // Routes

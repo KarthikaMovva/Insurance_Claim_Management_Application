@@ -96,7 +96,10 @@ export const getAllClaims = async (req, res) => {
             }
 
             if (endDate) {
-                filter.createdAt.$lte = new Date(endDate);
+                // Set to end of the selected day so claims ON that date are included
+                const end = new Date(endDate);
+                end.setHours(23, 59, 59, 999);
+                filter.createdAt.$lte = end;
             }
         }
 
@@ -134,9 +137,18 @@ export const getClaimById = async (req, res) => {
             });
         }
 
+        const claimData = claim.toObject();
+
+        if (claimData.document) {
+
+            claimData.documentUrl =
+                `${req.protocol}://${req.get("host")}/${claimData.document.replace(/\\/g, "/")}`;
+
+        }
+
         res.status(200).json({
             success: true,
-            claim
+            claim: claimData
         });
 
     } catch (error) {
